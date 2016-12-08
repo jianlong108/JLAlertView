@@ -481,8 +481,11 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
     }
 
     if ([JLAlertView currentAlertView].isVisible) {
-        JLAlertView *alertView = [JLAlertView currentAlertView];
-        [alertView dismissWithClean:NO];
+        [self transitionOutCompletion:^{
+            JLAlertView *alertView = [JLAlertView currentAlertView];
+            [alertView dismissWithClean:NO];
+        }];
+        
         return;
     }
     
@@ -511,11 +514,54 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
     [self.alertWindow makeKeyAndVisible];
 //    [self initializeView];
     
+    [self transitionInCompletion:^{
+        
+    }];
+    
     self.visible = YES;
     [JLAlertView setCurrentAlertView:self];
     
 }
-
+// Transition
+- (void)transitionInCompletion:(void(^)(void))completion
+{
+    _mainView.alpha = 0;
+    _mainView.transform = CGAffineTransformMakeScale(1.2, 1.2);
+    
+//    _blurView.alpha = 0.9;
+//    _blurView.transform = CGAffineTransformMakeScale(1.2, 1.2);
+    
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         _mainView.alpha = 1.;
+                         _mainView.transform = CGAffineTransformMakeScale(1.0,1.0);
+                         
+//                         _blurView.alpha = 1.;
+//                         _blurView.transform = CGAffineTransformMakeScale(1.0,1.0);
+                     }
+                     completion:^(BOOL finished) {
+//                         [_blurView blur];
+                         if (completion) {
+                             completion();
+                         }
+                     }];
+}
+- (void)transitionOutCompletion:(void(^)(void))completion
+{
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         _mainView.alpha = 0;
+                         _mainView.transform = CGAffineTransformMakeScale(0.9,0.9);
+                         
+//                         _blurView.alpha = 0.9;
+//                         _blurView.transform = CGAffineTransformMakeScale(0.9,0.9);
+                     }
+                     completion:^(BOOL finished) {
+                         if (completion) {
+                             completion();
+                         }
+                     }];
+}
 - (void)dismissWithClean:(BOOL)clean{
     
     
@@ -538,14 +584,18 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
     }
     
     if (nextAlertView) {
-        [nextAlertView show];
-        //        return;
+//        [UIView animateWithDuration:0.5 delay:3 options:UIViewAnimationOptionCurveEaseIn animations:nil completion:^(BOOL finished) {
+            [nextAlertView show];
+//        }];
+        
     } else {
         // show last alert view
         if ([JLAlertView allAlerts].count > 0) {
             JLAlertView *alert = [[JLAlertView allAlerts] lastObject];
-            [alert show];
-            //            return;
+           
+//            [UIView animateWithDuration:0.5 delay:3 options:UIViewAnimationOptionCurveEaseIn animations:nil completion:^(BOOL finished) {
+                 [alert show];
+//            }];
         }
     }
     [_oldKeyWindow makeKeyAndVisible];
