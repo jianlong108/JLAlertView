@@ -15,14 +15,14 @@
 //分割线高度
 #define JLALERT_SPLITE_H 0.5f
 
-@class JLAlertViewBackGroundView;
+@class JLAlertViewBackGroundWindow;
 
 static NSString const * JLAlertViewTopTitle = @"JLAlertViewTopTitle";
 static NSString const * JLAlertViewSecondTitle = @"JLAlertViewSecondTitle";
 static NSString const * JLAlertViewSureButton = @"JLAlertViewSureButton";
 static NSString const * JLAlertViewOtherButtons = @"JLAlertViewOtherButtons";
 static NSMutableArray *alert__alertElement;
-static JLAlertViewBackGroundView *alert__BackGroundView;
+//static JLAlertViewBackGroundWindow *_alert__BackGroundView;
 static JLAlertView *alert__currentAlertView;
 static BOOL JLAlertView_prefersStatusBarHidden;
 static BOOL JLAlertView_canrorate;
@@ -56,14 +56,15 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
 }
 @end
 
-@interface JLAlertViewBackGroundView : UIWindow
+@interface JLAlertViewBackGroundWindow : UIWindow
 
 @end
 
-@implementation JLAlertViewBackGroundView
+@implementation JLAlertViewBackGroundWindow
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(windowDidResign:) name:UIWindowDidResignKeyNotification object:nil];
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.windowLevel = UIWindowLevelAlert - 1;
         self.opaque = NO;
@@ -72,6 +73,13 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
     }
     return self;
 }
+
+
+- (void)windowDidResign:(NSNotification *)noti{
+//    if ([__alert__BackGroundView isEqual:noti.object]) {
+//        _alert__BackGroundView = nil;
+//    }
+}
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -79,7 +87,25 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
     CGContextFillRect(context, self.bounds);
 }
 - (void)dealloc{
-    //    NSLog(@"JLAlertViewBackGroundView--dealloc");
+    NSLog(@"JLAlertViewBackGroundView--dealloc");
+}
+@end
+
+@interface JLAlertViewWindow : UIWindow
+
+@end
+
+@implementation JLAlertViewWindow
+
+- (instancetype)initWithFrame:(CGRect)frame{
+    if (self = [super initWithFrame:frame]) {
+        
+    }
+    return self;
+}
+
+- (void)dealloc{
+    NSLog(@"JLAlertViewWindow--dealloc %p",self);
 }
 @end
 
@@ -124,6 +150,8 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
 @property (nonatomic, strong)UIWindow *oldKeyWindow;
 
 @property (nonatomic, strong)UIWindow *alertWindow;
+
+@property (nonatomic, strong)JLAlertViewBackGroundWindow *alert__BackGroundView;
 
 /**是否可见*/
 @property (nonatomic, assign,getter=isVisible)BOOL visible;
@@ -317,8 +345,8 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
 }
 
 - (void)layoutSubviews{
-    alert__BackGroundView.frame = [UIScreen mainScreen].bounds;
-    alert__BackGroundView.rootViewController.view.frame = [UIScreen mainScreen].bounds;
+    _alert__BackGroundView.frame = [UIScreen mainScreen].bounds;
+    _alert__BackGroundView.rootViewController.view.frame = [UIScreen mainScreen].bounds;
     [super layoutSubviews];
     
     if (self.contentDatas.count == 0) return;
@@ -451,17 +479,14 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
     if (self.isVisible) {
         return;
     }
-    
-    [JLAlertView showBackGround];
-    
+
     if ([JLAlertView currentAlertView].isVisible) {
         JLAlertView *alertView = [JLAlertView currentAlertView];
         [alertView dismissWithClean:NO];
         return;
     }
     
-    
-    
+    [self showBackGround];
     
     if (self.associatedViewController == nil) {
         JLAlertViewController *viewController = [[JLAlertViewController alloc] initWithNibName:nil bundle:nil];
@@ -470,7 +495,7 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
         viewController.rootViewControllerCanRoration = JLAlertView_canrorate;
         viewController.rootViewControllerInterfaceOrientationMask = JLAlertView_InterfaceOrientationMask;
         
-        UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        JLAlertViewWindow *window = [[JLAlertViewWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         window.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         window.opaque = NO;
         window.windowLevel = UIWindowLevelAlert;
@@ -478,8 +503,13 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
         self.associatedViewController = viewController;
         self.alertWindow = window;
     }
+   
+    [UIView animateWithDuration:0.5 animations:^{
+        self.alertWindow.hidden = NO;
+        self.alert__BackGroundView.hidden = NO;
+    }];
     [self.alertWindow makeKeyAndVisible];
-    [self initializeView];
+//    [self initializeView];
     
     self.visible = YES;
     [JLAlertView setCurrentAlertView:self];
@@ -491,7 +521,8 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
     
     self.visible = NO;
     [JLAlertView setCurrentAlertView:nil];
-    [self tearDown];
+    [self tearDown:clean];
+    
     JLAlertView *nextAlertView;
     NSInteger index = [[JLAlertView allAlerts] indexOfObject:self];
     if (index != NSNotFound && index < [JLAlertView allAlerts].count - 1) {
@@ -503,15 +534,18 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
             [self removeFromSuperview];
         }
         [[JLAlertView allAlerts]removeObject:self];
+        
     }
     
     if (nextAlertView) {
         [nextAlertView show];
+        //        return;
     } else {
         // show last alert view
         if ([JLAlertView allAlerts].count > 0) {
             JLAlertView *alert = [[JLAlertView allAlerts] lastObject];
             [alert show];
+            //            return;
         }
     }
     [_oldKeyWindow makeKeyAndVisible];
@@ -526,14 +560,26 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
 + (void)setCurrentAlertView:(JLAlertView *)alertView{
     alert__currentAlertView = alertView;
 }
-- (void)tearDown{
-    if ([JLAlertView allAlerts].count == 1) {
-        [alert__BackGroundView removeFromSuperview];
-        alert__BackGroundView.rootViewController = nil;
-        alert__BackGroundView = nil;
+- (void)tearDown:(BOOL)clean{
+    if (clean) {
+        [_alertWindow removeFromSuperview];
+        _alertWindow = nil;
+        
+        [_alert__BackGroundView removeFromSuperview];
+        _alert__BackGroundView = nil;
+    }else{
+        [UIView animateWithDuration:0.5 animations:^{
+            _alertWindow.hidden = YES;
+            _alert__BackGroundView.hidden = YES;
+        }];
     }
-    [self.alertWindow removeFromSuperview];
-    self.alertWindow = nil;
+//    if ([JLAlertView allAlerts].count == 1) {
+//        [_alert__BackGroundView removeFromSuperview];
+//        _alert__BackGroundView.rootViewController = nil;
+//        _alert__BackGroundView = nil;
+//    }
+//    [self.alertWindow removeFromSuperview];
+//    self.alertWindow = nil;
 }
 //获取当前屏幕显示的viewcontroller
 + (UIViewController *)getCurrentViewController:(UIViewController *)vc{
@@ -582,10 +628,10 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
     }
     
 }
-+ (void)showBackGround{
-    if (alert__BackGroundView == nil) {
-        alert__BackGroundView = [[JLAlertViewBackGroundView alloc]initWithFrame:CGRectMake(0, 0, [JLAlertView currentScreenSize].width, [JLAlertView currentScreenSize].height)];
-        alert__BackGroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+- (void)showBackGround{
+    if (_alert__BackGroundView == nil) {
+        _alert__BackGroundView = [[JLAlertViewBackGroundWindow alloc]initWithFrame:CGRectMake(0, 0, [JLAlertView currentScreenSize].width, [JLAlertView currentScreenSize].height)];
+        _alert__BackGroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         if ([[UIApplication sharedApplication].keyWindow.rootViewController respondsToSelector:@selector(prefersStatusBarHidden)]) {
             UIViewController *rootVc = [UIApplication sharedApplication].keyWindow.rootViewController;
             UIViewController *visibleVC = [JLAlertView getCurrentViewController:rootVc];
@@ -596,7 +642,7 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
         }
         
     }
-    [alert__BackGroundView makeKeyAndVisible];
+    [_alert__BackGroundView makeKeyAndVisible];
 }
 + (CGSize)currentScreenSize
 {

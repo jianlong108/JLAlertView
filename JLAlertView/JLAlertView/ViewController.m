@@ -42,9 +42,16 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-- (void)entryAPPSTORE{;
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+//    
+//}
+//- (void)entryAPPSTORE{
+//    UIAlertView *ALERT1 = [[UIAlertView alloc]initWithTitle:@"第一个" message:@"hello" delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//    [ALERT1 show];
+//    
+//    UIAlertView *ALERT2 = [[UIAlertView alloc]initWithTitle:@"第2个" message:@"ok" delegate:self cancelButtonTitle:@"sure" otherButtonTitles:nil];
+//    [ALERT2 show];
+//}
 - (void)entryPhotoReader{
     _alert = [[JLAlertView alloc]initWithTitle:@"第一个" message:@"hello" delegate:nil SureButtonTitle:@"ok" otherButtonTitles:nil];
     [_alert show];
