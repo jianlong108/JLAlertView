@@ -53,10 +53,10 @@
     [ALERT2 show];
 }
 - (void)entryPhotoReader{
-    _alert = [[JLAlertView alloc]initWithTitle:@"第一个" message:@"hello" delegate:nil SureButtonTitle:@"ok" otherButtonTitles:nil];
-    [_alert show];
+    JLAlertView *alert = [[JLAlertView alloc]initWithTitle:@"第一个" message:@"hello" delegate:nil SureButtonTitle:@"ok" otherButtonTitles:nil];
+    [alert show];
     
-    _alert1 = [[JLAlertView alloc]initWithTitle:@"第2个" message:@"welcome" delegate:nil SureButtonTitle:@"sure" otherButtonTitles:nil];
-    [_alert1 show];
+//    JLAlertView *alert1 = [[JLAlertView alloc]initWithTitle:@"第2个" message:@"welcome" delegate:nil SureButtonTitle:@"sure" otherButtonTitles:nil];
+//    [alert1 show];
 }
 @end

@@ -185,17 +185,33 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
     }
     return self;
 }
+//- (instancetype)initWithFrame:(CGRect)frame{
+//    if (self = [super initWithFrame:frame]) {
+//        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(windowChange:) name:UIWindowDidBecomeKeyNotification object:nil];
+//        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(windowChange:) name:UIWindowDidBecomeHiddenNotification object:nil];
+//        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(windowChange:) name:UIWindowDidBecomeVisibleNotification object:nil];
+//        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(windowChange:) name:UIWindowDidResignKeyNotification object:nil];
+//    }
+//    return self;
+//}
+//- (void)windowChange:(NSNotification *)noti{
+//    NSLog(@"%@  %@",noti.name,noti.object);
+//}
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(windowChange:) name:UIWindowDidBecomeKeyNotification object:nil];
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(windowChange:) name:UIWindowDidBecomeHiddenNotification object:nil];
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(windowChange:) name:UIWindowDidBecomeVisibleNotification object:nil];
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(windowChange:) name:UIWindowDidResignKeyNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willregin) name:UIApplicationWillResignActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeregin) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
     return self;
 }
-- (void)windowChange:(NSNotification *)noti{
-    NSLog(@"%@  %@",noti.name,noti.object);
+- (void)willregin{
+    [self.oldKeyWindow makeKeyAndVisible];
+    [self tearDown:NO];
+    self.visible = NO;
+}
+- (void)becomeregin{
+    JLAlertView *view = [JLAlertView allAlerts].lastObject;
+    [view show];
 }
 - (void)initializeDataWithTitle:(NSString *)title Message:(NSString *)seconTitle SureButtonTitle:(nullable NSString *)sureButtonTitle   otherButtonTitles:(NSArray <NSString *>*) otherButtonTitles{
     _contentInsets = UIEdgeInsetsMake(20, 20, 20, 20);
