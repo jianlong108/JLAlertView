@@ -16,16 +16,19 @@
 @implementation JLAlertViewController
 #pragma mark - View life cycle
 
-- (void)loadView
-{
-    self.view = self.alertView;
-}
+//- (void)loadView
+//{
+//    self.view = self.alertView;
+//}
 - (void)dealloc{
-    //    NSLog(@"AHAlertViewConroller--dealloc");
+    NSLog(@"JLAlertViewConroller--dealloc");
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.alertView];
+    
     [self.alertView initializeView];
     
     [UIApplication sharedApplication].statusBarHidden = _rootViewControllerPrefersStatusBarHidden;

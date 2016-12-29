@@ -12,7 +12,7 @@
 @interface JLAlertViewController : UIViewController
 
 
-@property (nonatomic, strong) JLAlertView *alertView;
+@property (nonatomic, weak) JLAlertView *alertView;
 
 @property (nonatomic, assign) BOOL rootViewControllerPrefersStatusBarHidden;
 @property (nonatomic, assign) BOOL rootViewControllerCanRoration;

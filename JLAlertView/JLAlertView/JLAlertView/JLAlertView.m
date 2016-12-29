@@ -64,7 +64,7 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(windowDidResign:) name:UIWindowDidResignKeyNotification object:nil];
+
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.windowLevel = UIWindowLevelAlert - 1;
         self.opaque = NO;
@@ -75,11 +75,6 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
 }
 
 
-- (void)windowDidResign:(NSNotification *)noti{
-//    if ([__alert__BackGroundView isEqual:noti.object]) {
-//        _alert__BackGroundView = nil;
-//    }
-}
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -207,11 +202,22 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
 - (void)willregin{
     [self.oldKeyWindow makeKeyAndVisible];
     [self tearDown:NO];
-    self.visible = NO;
+    _alert__BackGroundView = nil;
+    for (JLAlertView *view in [JLAlertView allAlerts]) {
+        view.associatedViewController = nil;
+        view.visible = NO;
+        view.alertWindow = nil;
+    }
 }
 - (void)becomeregin{
-    JLAlertView *view = [JLAlertView allAlerts].lastObject;
-    [view show];
+    JLAlertView *alert = [[JLAlertView allAlerts] lastObject];
+    [alert show];
+//    [UIView animateWithDuration:0.5 animations:^{
+//        _alertWindow.hidden = NO;
+//        _alert__BackGroundView.hidden = NO;
+//    }];
+    
+    
 }
 - (void)initializeDataWithTitle:(NSString *)title Message:(NSString *)seconTitle SureButtonTitle:(nullable NSString *)sureButtonTitle   otherButtonTitles:(NSArray <NSString *>*) otherButtonTitles{
     _contentInsets = UIEdgeInsetsMake(20, 20, 20, 20);
@@ -600,18 +606,15 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
     }
     
     if (nextAlertView) {
-//        [UIView animateWithDuration:0.5 delay:3 options:UIViewAnimationOptionCurveEaseIn animations:nil completion:^(BOOL finished) {
-            [nextAlertView show];
-//        }];
-        
+        [nextAlertView show];
+        return;
     } else {
         // show last alert view
         if ([JLAlertView allAlerts].count > 0) {
             JLAlertView *alert = [[JLAlertView allAlerts] lastObject];
            
-//            [UIView animateWithDuration:0.5 delay:3 options:UIViewAnimationOptionCurveEaseIn animations:nil completion:^(BOOL finished) {
-                 [alert show];
-//            }];
+            [alert show];
+            return;
         }
     }
     [_oldKeyWindow makeKeyAndVisible];
@@ -639,13 +642,6 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
             _alert__BackGroundView.hidden = YES;
         }];
     }
-//    if ([JLAlertView allAlerts].count == 1) {
-//        [_alert__BackGroundView removeFromSuperview];
-//        _alert__BackGroundView.rootViewController = nil;
-//        _alert__BackGroundView = nil;
-//    }
-//    [self.alertWindow removeFromSuperview];
-//    self.alertWindow = nil;
 }
 //获取当前屏幕显示的viewcontroller
 + (UIViewController *)getCurrentViewController:(UIViewController *)vc{
@@ -706,9 +702,9 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
             JLAlertView_canrorate = [visibleVC shouldAutorotate];
             JLAlertView_InterfaceOrientationMask = [visibleVC supportedInterfaceOrientations];
         }
-        
+        [_alert__BackGroundView makeKeyAndVisible];
     }
-    [_alert__BackGroundView makeKeyAndVisible];
+    
 }
 + (CGSize)currentScreenSize
 {
