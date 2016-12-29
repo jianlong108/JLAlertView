@@ -266,7 +266,7 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
         [otherBtn addTarget:self action:@selector(cancleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         UIColor *color = [UIColor colorWithRed:65/255.0 green:131/255.0 blue:1.0 alpha:1.0];
         if (btnColor == JLAlertViewBtnColorGray) {
-            color = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85 alpha:1.0];
+            color = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1.0];
         }
         [otherBtn setTitleColor:color forState:UIControlStateNormal];
         [otherBtn setTitle:title forState:UIControlStateNormal];
@@ -342,7 +342,7 @@ static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
                 [btn addTarget:self action:@selector(cancleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
                 [btn setTitle:obj forState:UIControlStateNormal];
                 btn.backgroundColor = [UIColor whiteColor];
-                [btn setTitleColor:[UIColor colorWithRed:85/255.0 green:85/255.0 blue:85 alpha:1.0] forState:UIControlStateNormal];
+                [btn setTitleColor:[UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1.0] forState:UIControlStateNormal];
                 [arr_m addObject:btn];
                 
             }];
