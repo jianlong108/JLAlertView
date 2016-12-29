@@ -8,7 +8,7 @@
 
 #import "JLAlertViewController.h"
 @interface JLAlertView ()
-
+@property (nonatomic, strong)UIWindow *oldKeyWindow;
 - (void)initializeView;
 
 @end
@@ -70,5 +70,11 @@
 - (BOOL)prefersStatusBarHidden
 {
     return _rootViewControllerPrefersStatusBarHidden;
+}
+- (UIViewController *)childViewControllerForStatusBarStyle{
+    return self.alertView.oldKeyWindow.rootViewController;
+}
+- (UIViewController *)childViewControllerForStatusBarHidden{
+    return self.alertView.oldKeyWindow.rootViewController;
 }
 @end
