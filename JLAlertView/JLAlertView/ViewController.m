@@ -37,6 +37,10 @@
     [btn0 addTarget:self action:@selector(entryAPPSTORE) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    NSLog(@"preferredStatusBarStyle");
+    return UIStatusBarStyleDefault;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

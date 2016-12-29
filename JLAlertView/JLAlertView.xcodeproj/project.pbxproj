@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		340E6D221E14E87F008862F0 /* JLAlertBackGroundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340E6D211E14E87F008862F0 /* JLAlertBackGroundController.m */; };
+		340E6D251E14EA17008862F0 /* JLAlertBackGroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 340E6D241E14EA17008862F0 /* JLAlertBackGroundWindow.m */; };
+		340E6D281E14EA5F008862F0 /* JLAlertWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 340E6D271E14EA5F008862F0 /* JLAlertWindow.m */; };
 		34DF18401DF9111A0044858C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 34DF183F1DF9111A0044858C /* main.m */; };
 		34DF18431DF9111A0044858C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 34DF18421DF9111A0044858C /* AppDelegate.m */; };
 		34DF18461DF9111A0044858C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34DF18451DF9111A0044858C /* ViewController.m */; };
@@ -18,6 +21,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		340E6D201E14E87F008862F0 /* JLAlertBackGroundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLAlertBackGroundController.h; sourceTree = "<group>"; };
+		340E6D211E14E87F008862F0 /* JLAlertBackGroundController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLAlertBackGroundController.m; sourceTree = "<group>"; };
+		340E6D231E14EA17008862F0 /* JLAlertBackGroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLAlertBackGroundWindow.h; sourceTree = "<group>"; };
+		340E6D241E14EA17008862F0 /* JLAlertBackGroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLAlertBackGroundWindow.m; sourceTree = "<group>"; };
+		340E6D261E14EA5F008862F0 /* JLAlertWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLAlertWindow.h; sourceTree = "<group>"; };
+		340E6D271E14EA5F008862F0 /* JLAlertWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLAlertWindow.m; sourceTree = "<group>"; };
+		344722881E1505D700F37F4F /* JLAlertHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAlertHeader.h; sourceTree = "<group>"; };
 		34DF183B1DF9111A0044858C /* JLAlertView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JLAlertView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34DF183F1DF9111A0044858C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		34DF18411DF9111A0044858C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -91,6 +101,13 @@
 			children = (
 				34DF18561DF9114D0044858C /* JLAlertView.h */,
 				34DF18571DF9114D0044858C /* JLAlertView.m */,
+				344722881E1505D700F37F4F /* JLAlertHeader.h */,
+				340E6D261E14EA5F008862F0 /* JLAlertWindow.h */,
+				340E6D271E14EA5F008862F0 /* JLAlertWindow.m */,
+				340E6D231E14EA17008862F0 /* JLAlertBackGroundWindow.h */,
+				340E6D241E14EA17008862F0 /* JLAlertBackGroundWindow.m */,
+				340E6D201E14E87F008862F0 /* JLAlertBackGroundController.h */,
+				340E6D211E14E87F008862F0 /* JLAlertBackGroundController.m */,
 				34DF18591DF92ABC0044858C /* JLAlertViewController.h */,
 				34DF185A1DF92ABC0044858C /* JLAlertViewController.m */,
 			);
@@ -169,11 +186,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				340E6D281E14EA5F008862F0 /* JLAlertWindow.m in Sources */,
 				34DF185B1DF92ABC0044858C /* JLAlertViewController.m in Sources */,
 				34DF18461DF9111A0044858C /* ViewController.m in Sources */,
+				340E6D251E14EA17008862F0 /* JLAlertBackGroundWindow.m in Sources */,
 				34DF18581DF9114D0044858C /* JLAlertView.m in Sources */,
 				34DF18431DF9111A0044858C /* AppDelegate.m in Sources */,
 				34DF18401DF9111A0044858C /* main.m in Sources */,
+				340E6D221E14E87F008862F0 /* JLAlertBackGroundController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +350,7 @@
 				34DF18541DF9111A0044858C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

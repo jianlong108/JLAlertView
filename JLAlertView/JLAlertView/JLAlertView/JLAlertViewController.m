@@ -7,8 +7,12 @@
 //
 
 #import "JLAlertViewController.h"
+#import "JLAlertHeader.h"
+
 @interface JLAlertView ()
+
 @property (nonatomic, strong)UIWindow *oldKeyWindow;
+
 - (void)initializeView;
 
 @end
@@ -16,10 +20,6 @@
 @implementation JLAlertViewController
 #pragma mark - View life cycle
 
-//- (void)loadView
-//{
-//    self.view = self.alertView;
-//}
 - (void)dealloc{
     NSLog(@"JLAlertViewConroller--dealloc");
 }
@@ -71,10 +71,11 @@
 {
     return _rootViewControllerPrefersStatusBarHidden;
 }
-- (UIViewController *)childViewControllerForStatusBarStyle{
-    return self.alertView.oldKeyWindow.rootViewController;
-}
-- (UIViewController *)childViewControllerForStatusBarHidden{
-    return self.alertView.oldKeyWindow.rootViewController;
-}
+//- (UIViewController *)childViewControllerForStatusBarStyle{
+//    NSLog(@"JLAlertViewController--childViewControllerForStatusBarStyle--%@",_alert__BackGroundView.rootVC.oldKeyWindow.rootViewController);
+//    return _alert__BackGroundView.rootVC.oldKeyWindow.rootViewController;
+//}
+//- (UIViewController *)childViewControllerForStatusBarHidden{
+//    return _alert__BackGroundView.rootVC.oldKeyWindow.rootViewController;
+//}
 @end
