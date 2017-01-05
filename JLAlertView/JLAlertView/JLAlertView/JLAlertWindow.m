@@ -20,6 +20,8 @@
 //    }
 //    return self;
 //}
-
+- (void)dealloc{
+    NSLog(@"JLAlertWindow -- dealloc");
+}
 
 @end

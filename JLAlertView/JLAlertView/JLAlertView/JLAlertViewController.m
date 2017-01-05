@@ -74,19 +74,18 @@
     return _rootViewControllerPrefersStatusBarHidden;
 }
 - (UIViewController *)childViewControllerForStatusBarStyle{
-    if ([UIApplication sharedApplication].keyWindow == self.alertView.alertWindow|| [UIApplication sharedApplication].keyWindow ==self.alertView.alert__BackGroundView || self.alertView.alertWindow == nil || self.alertView.alert__BackGroundView == nil) {
+    if ([NSStringFromClass([UIApplication sharedApplication].keyWindow.class) isEqualToString:@"JLAlertWindow"] || [NSStringFromClass([UIApplication sharedApplication].keyWindow.class) isEqualToString:@"JLAlertBackGroundWindow"]) {
         return nil;
     }else{
         return [UIApplication sharedApplication].keyWindow.rootViewController;
     }
-    //    return self.alertView.oldKeyWindow.rootViewController;
+    
 }
 - (UIViewController *)childViewControllerForStatusBarHidden{
-    if ([UIApplication sharedApplication].keyWindow == self.alertView.alertWindow || [UIApplication sharedApplication].keyWindow ==self.alertView.alert__BackGroundView || self.alertView.alertWindow == nil || self.alertView.alert__BackGroundView == nil) {
+    if ([NSStringFromClass([UIApplication sharedApplication].keyWindow.class) isEqualToString:@"JLAlertWindow"] || [NSStringFromClass([UIApplication sharedApplication].keyWindow.class) isEqualToString:@"JLAlertBackGroundWindow"]) {
         return nil;
     }else{
         return [UIApplication sharedApplication].keyWindow.rootViewController;
     }
-    //    return self.alertView.oldKeyWindow.rootViewController;
 }
 @end
