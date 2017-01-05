@@ -12,6 +12,8 @@
 @interface JLAlertView ()
 
 @property (nonatomic, strong)UIWindow *oldKeyWindow;
+@property (nonatomic, strong)UIWindow *alertWindow;
+@property (nonatomic, strong)JLAlertBackGroundWindow *alert__BackGroundView;
 
 - (void)initializeView;
 
@@ -71,11 +73,20 @@
 {
     return _rootViewControllerPrefersStatusBarHidden;
 }
-//- (UIViewController *)childViewControllerForStatusBarStyle{
-//    NSLog(@"JLAlertViewController--childViewControllerForStatusBarStyle--%@",_alert__BackGroundView.rootVC.oldKeyWindow.rootViewController);
-//    return _alert__BackGroundView.rootVC.oldKeyWindow.rootViewController;
-//}
-//- (UIViewController *)childViewControllerForStatusBarHidden{
-//    return _alert__BackGroundView.rootVC.oldKeyWindow.rootViewController;
-//}
+- (UIViewController *)childViewControllerForStatusBarStyle{
+    if ([UIApplication sharedApplication].keyWindow == self.alertView.alertWindow|| [UIApplication sharedApplication].keyWindow ==self.alertView.alert__BackGroundView || self.alertView.alertWindow == nil || self.alertView.alert__BackGroundView == nil) {
+        return nil;
+    }else{
+        return [UIApplication sharedApplication].keyWindow.rootViewController;
+    }
+    //    return self.alertView.oldKeyWindow.rootViewController;
+}
+- (UIViewController *)childViewControllerForStatusBarHidden{
+    if ([UIApplication sharedApplication].keyWindow == self.alertView.alertWindow || [UIApplication sharedApplication].keyWindow ==self.alertView.alert__BackGroundView || self.alertView.alertWindow == nil || self.alertView.alert__BackGroundView == nil) {
+        return nil;
+    }else{
+        return [UIApplication sharedApplication].keyWindow.rootViewController;
+    }
+    //    return self.alertView.oldKeyWindow.rootViewController;
+}
 @end

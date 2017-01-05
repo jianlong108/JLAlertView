@@ -56,7 +56,7 @@
 
 @property (nonatomic, strong)UIWindow *alertWindow;
 
-//@property (nonatomic, strong)JLAlertBackGroundWindow *alert__BackGroundView;
+@property (nonatomic, strong)JLAlertBackGroundWindow *alert__BackGroundView;
 
 /**是否可见*/
 @property (nonatomic, assign,getter=isVisible)BOOL visible;
@@ -410,7 +410,7 @@
         return;
     }
     
-    [JLAlertView showBackGround];
+    [self showBackGround];
     
     if (self.associatedViewController == nil) {
         JLAlertViewController *viewController = [[JLAlertViewController alloc] initWithNibName:nil bundle:nil];
@@ -597,7 +597,7 @@
     }
     
 }
-+ (void)showBackGround{
+- (void)showBackGround{
     if (_alert__BackGroundView == nil) {
         _alert__BackGroundView = [[JLAlertBackGroundWindow alloc]initWithFrame:CGRectMake(0, 0, [JLAlertView currentScreenSize].width, [JLAlertView currentScreenSize].height)];
         _alert__BackGroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
