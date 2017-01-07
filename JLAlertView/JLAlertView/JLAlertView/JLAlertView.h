@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, JLAlertViewBtnColor) {
  *  @param alertView   alertView
  *  @param buttonIndex 确认按钮是最大的索引
  */
-- (void)alertView:(JLAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+- (void)alertView:(nullable JLAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 
 @end
 
@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, JLAlertViewBtnColor) {
 
 @property(nonatomic,readonly) NSInteger numberOfButtons;
 
-- (instancetype)initWithTitle:(nullable NSString *)title message:(nullable NSString *)message delegate:(nullable id)delegate SureButtonTitle:(nullable NSString *)sureButtonTitle otherButtonTitles:(NSArray <NSString *>*) otherButtonTitles;
+- (nullable instancetype)initWithTitle:(nullable NSString *)title message:(nullable NSString *)message delegate:(nullable id)delegate SureButtonTitle:(nullable NSString *)sureButtonTitle otherButtonTitles:(nullable NSArray <NSString *>*) otherButtonTitles;
 
 - (void)addButtonWithTitle:(nullable NSString *)title BtnColorStyle:(JLAlertViewBtnColor)btnColor;
 
