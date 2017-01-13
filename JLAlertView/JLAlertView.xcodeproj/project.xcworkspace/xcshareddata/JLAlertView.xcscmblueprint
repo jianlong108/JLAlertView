@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "0677DA52F70047C2E176A43ACC0A76D8940B9637",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5D15E09480009AF6531426C27CE4CB29E0D1844F" : 9223372036854775807,
+    "0677DA52F70047C2E176A43ACC0A76D8940B9637" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "E9080E54-53AF-472E-ADD9-C91C928811B3",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5D15E09480009AF6531426C27CE4CB29E0D1844F" : "..\/autohone_git\/business\/business750",
+    "0677DA52F70047C2E176A43ACC0A76D8940B9637" : "JLAlertView\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "JLAlertView",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "JLAlertView\/JLAlertView.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jianlong108\/JLAlertView.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0677DA52F70047C2E176A43ACC0A76D8940B9637"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/git.corpautohome.com\/GP_APPMAIN_IOS_SUPERTECH\/AHBusiness.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5D15E09480009AF6531426C27CE4CB29E0D1844F"
+    }
+  ]
+}
