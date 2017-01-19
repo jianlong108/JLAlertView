@@ -15,3 +15,5 @@ very similar with UIAlertView,but JLAlertView is not subclass of UIAlertView
       JLAlertView *alert1 = [[JLAlertView alloc]initWithTitle:@"第2个" message:@"welcome" delegate:nil SureButtonTitle:@"sure" otherButtonTitles:nil];
       [alert1 show];
     }
+   
+![image](https://github.com/jianlong108/JLAlertView/blob/master/ezgif.com-video-to-gif%20(1).gif)
