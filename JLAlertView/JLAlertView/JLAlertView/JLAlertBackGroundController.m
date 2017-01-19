@@ -72,7 +72,7 @@
     
     UIViewController *temViewController = nil;
     do {
-        temViewController = [viewController childViewControllerForStatusBarHidden];
+        temViewController = [viewController childViewControllerForStatusBarStyle];
         if (temViewController)
         {
             viewController = temViewController;
