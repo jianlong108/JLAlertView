@@ -23,25 +23,67 @@
 }
 - (BOOL)prefersStatusBarHidden
 {
-    return NO;
-//    return JLAlertView_prefersStatusBarHidden;
+    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
+    
+    UIViewController *temViewController = nil;
+    do {
+        temViewController = [viewController childViewControllerForStatusBarHidden];
+        if (temViewController)
+        {
+            viewController = temViewController;
+        }
+        
+    } while (temViewController != nil);
+    
+    return [viewController prefersStatusBarHidden];
 }
 - (BOOL)shouldAutorotate{
-//    return JLAlertView_canrorate;
-    return NO;
+    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
+    
+    UIViewController *temViewController = nil;
+    do {
+        temViewController = [viewController childViewControllerForStatusBarHidden];
+        if (temViewController)
+        {
+            viewController = temViewController;
+        }
+        
+    } while (temViewController != nil);
+    
+    return [viewController shouldAutorotate];
 }
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations{
-//    return JLAlertView_InterfaceOrientationMask;
-    return UIInterfaceOrientationMaskPortrait;
+    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
+    
+    UIViewController *temViewController = nil;
+    do {
+        temViewController = [viewController childViewControllerForStatusBarHidden];
+        if (temViewController)
+        {
+            viewController = temViewController;
+        }
+        
+    } while (temViewController != nil);
+    
+    return [viewController supportedInterfaceOrientations];
+}
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
+    
+    UIViewController *temViewController = nil;
+    do {
+        temViewController = [viewController childViewControllerForStatusBarHidden];
+        if (temViewController)
+        {
+            viewController = temViewController;
+        }
+        
+    } while (temViewController != nil);
+    
+    return [viewController preferredStatusBarStyle];
 }
 - (void)dealloc{
     NSLog(@"JLAlertBackGroundController--dealloc");
 }
-//- (UIViewController *)childViewControllerForStatusBarStyle{
-//    NSLog(@"JLAlertBackGroundController--childViewControllerForStatusBarStyle--%@",self.oldKeyWindow.rootViewController);
-//    return self.oldKeyWindow.rootViewController;
-//}
-//- (UIViewController *)childViewControllerForStatusBarHidden{
-//    return self.oldKeyWindow.rootViewController;
-//}
+
 @end

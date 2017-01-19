@@ -55,37 +55,65 @@
     [self.alertView setNeedsLayout];
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
-    return _rootViewControllerInterfaceOrientationMask;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-    return _rootViewControllerCanRoration;
-}
-
-- (BOOL)shouldAutorotate
-{
-    return _rootViewControllerCanRoration;
-}
-- (BOOL)prefersStatusBarHidden
-{
-    return _rootViewControllerPrefersStatusBarHidden;
-}
-- (UIViewController *)childViewControllerForStatusBarStyle{
-    if ([NSStringFromClass([UIApplication sharedApplication].keyWindow.class) isEqualToString:@"JLAlertWindow"] || [NSStringFromClass([UIApplication sharedApplication].keyWindow.class) isEqualToString:@"JLAlertBackGroundWindow"]) {
-        return nil;
-    }else{
-        return [UIApplication sharedApplication].keyWindow.rootViewController;
-    }
+- (BOOL)shouldAutorotate{
+    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
     
+    UIViewController *temViewController = nil;
+    do {
+        temViewController = [viewController childViewControllerForStatusBarHidden];
+        if (temViewController)
+        {
+            viewController = temViewController;
+        }
+        
+    } while (temViewController != nil);
+    
+    return [viewController shouldAutorotate];
 }
-- (UIViewController *)childViewControllerForStatusBarHidden{
-    if ([NSStringFromClass([UIApplication sharedApplication].keyWindow.class) isEqualToString:@"JLAlertWindow"] || [NSStringFromClass([UIApplication sharedApplication].keyWindow.class) isEqualToString:@"JLAlertBackGroundWindow"]) {
-        return nil;
-    }else{
-        return [UIApplication sharedApplication].keyWindow.rootViewController;
-    }
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
+    
+    UIViewController *temViewController = nil;
+    do {
+        temViewController = [viewController childViewControllerForStatusBarHidden];
+        if (temViewController)
+        {
+            viewController = temViewController;
+        }
+        
+    } while (temViewController != nil);
+    
+    return [viewController supportedInterfaceOrientations];
 }
+- (BOOL)prefersStatusBarHidden{
+    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
+    
+    UIViewController *temViewController = nil;
+    do {
+        temViewController = [viewController childViewControllerForStatusBarHidden];
+        if (temViewController)
+        {
+            viewController = temViewController;
+        }
+        
+    } while (temViewController != nil);
+    
+    return [viewController prefersStatusBarHidden];
+}
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
+    
+    UIViewController *temViewController = nil;
+    do {
+        temViewController = [viewController childViewControllerForStatusBarHidden];
+        if (temViewController)
+        {
+            viewController = temViewController;
+        }
+        
+    } while (temViewController != nil);
+    
+    return [viewController preferredStatusBarStyle];
+}
+
 @end
