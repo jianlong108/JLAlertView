@@ -55,36 +55,36 @@
     [self.alertView setNeedsLayout];
 }
 
-- (BOOL)shouldAutorotate{
-    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
-    
-    UIViewController *temViewController = nil;
-    do {
-        temViewController = [viewController childViewControllerForStatusBarHidden];
-        if (temViewController)
-        {
-            viewController = temViewController;
-        }
-        
-    } while (temViewController != nil);
-    
-    return [viewController shouldAutorotate];
-}
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
-    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
-    
-    UIViewController *temViewController = nil;
-    do {
-        temViewController = [viewController childViewControllerForStatusBarHidden];
-        if (temViewController)
-        {
-            viewController = temViewController;
-        }
-        
-    } while (temViewController != nil);
-    
-    return [viewController supportedInterfaceOrientations];
-}
+//- (BOOL)shouldAutorotate{
+//    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
+//    
+//    UIViewController *temViewController = nil;
+//    do {
+//        temViewController = [viewController childViewControllerForStatusBarHidden];
+//        if (temViewController)
+//        {
+//            viewController = temViewController;
+//        }
+//        
+//    } while (temViewController != nil);
+//    
+//    return [viewController shouldAutorotate];
+//}
+//- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+//    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
+//    
+//    UIViewController *temViewController = nil;
+//    do {
+//        temViewController = [viewController childViewControllerForStatusBarHidden];
+//        if (temViewController)
+//        {
+//            viewController = temViewController;
+//        }
+//        
+//    } while (temViewController != nil);
+//    
+//    return [viewController supportedInterfaceOrientations];
+//}
 - (BOOL)prefersStatusBarHidden{
     UIViewController *viewController = [alert__oldKeyWindow rootViewController];
     

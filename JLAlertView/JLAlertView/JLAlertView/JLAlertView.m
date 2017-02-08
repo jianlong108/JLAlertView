@@ -263,8 +263,7 @@
 }
 
 - (void)layoutSubviews{
-    _alert__BackGroundView.frame = [UIScreen mainScreen].bounds;
-    _alert__BackGroundView.rootViewController.view.frame = [UIScreen mainScreen].bounds;
+    
     [super layoutSubviews];
     
     if (self.contentDatas.count == 0) return;
@@ -344,10 +343,11 @@
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
         self.mainView.frame = CGRectMake((MAX(w, h)- _contentW)/2, (MIN(w, h)- CGRectGetMaxY(self.sureBtn.frame))/2, _contentW, CGRectGetMaxY(self.sureBtn.frame));
+
     }else {
         self.mainView.frame = CGRectMake((MIN(w, h)- _contentW)/2, (MAX(w, h)- CGRectGetMaxY(self.sureBtn.frame))/2, _contentW, CGRectGetMaxY(self.sureBtn.frame));
     }
-    
+    _alert__BackGroundView.frame = CGRectMake(0, 0, MIN(w, h), MAX(w, h));
 }
 
 - (CGFloat)cacluteBtnWWithContetn{
@@ -604,7 +604,6 @@
         if ([[UIApplication sharedApplication].keyWindow.rootViewController respondsToSelector:@selector(prefersStatusBarHidden)]) {
             UIViewController *rootVc = [UIApplication sharedApplication].keyWindow.rootViewController;
             UIViewController *visibleVC = [JLAlertView getCurrentViewController:rootVc];
-            //            NSLog(@"%@",visibleVC);
             JLAlertView_prefersStatusBarHidden = [visibleVC prefersStatusBarHidden];
             JLAlertView_canrorate = [visibleVC shouldAutorotate];
             JLAlertView_InterfaceOrientationMask = [visibleVC supportedInterfaceOrientations];
