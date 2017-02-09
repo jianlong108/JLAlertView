@@ -265,7 +265,8 @@ static UIWindow *alert__oldKeyWindow;
 }
 
 - (void)layoutSubviews{
-    
+    _alert__BackGroundView.frame = [UIScreen mainScreen].bounds;
+    _alert__BackGroundView.rootViewController.view.frame = [UIScreen mainScreen].bounds;
     [super layoutSubviews];
     
     if (self.contentDatas.count == 0) return;
@@ -345,10 +346,8 @@ static UIWindow *alert__oldKeyWindow;
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
         self.mainView.frame = CGRectMake((MAX(w, h)- _contentW)/2, (MIN(w, h)- CGRectGetMaxY(self.sureBtn.frame))/2, _contentW, CGRectGetMaxY(self.sureBtn.frame));
-        _alert__BackGroundView.frame = CGRectMake(0, 0, MAX(w, h), MIN(w, h));
     }else {
         self.mainView.frame = CGRectMake((MIN(w, h)- _contentW)/2, (MAX(w, h)- CGRectGetMaxY(self.sureBtn.frame))/2, _contentW, CGRectGetMaxY(self.sureBtn.frame));
-        _alert__BackGroundView.frame = CGRectMake(0, 0, MIN(w, h), MAX(w, h));
     }
     
 }
