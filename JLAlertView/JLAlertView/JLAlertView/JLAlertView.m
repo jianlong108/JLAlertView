@@ -550,7 +550,7 @@ static UIWindow *alert__oldKeyWindow;
 //获取当前屏幕显示的viewcontroller
 + (UIViewController *)getCurrentViewController:(UIViewController *)vc{
     
-    if ([vc isKindOfClass:NSClassFromString(@"UITabBarController")])
+    if ([vc isKindOfClass:[UITabBarController class]])
     {
         UITabBarController *svc = (UITabBarController *) vc;
         if (svc.viewControllers.count > 0)
