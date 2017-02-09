@@ -9,6 +9,11 @@
 #import "JLAlertBackGroundController.h"
 #import "JLAlertHeader.h"
 
+@interface JLAlertView ()
++ (UIViewController *)getCurrentViewController:(UIViewController *)vc;
++ (UIWindow *)getBusinessWindow;
+@end
+
 @interface JLAlertBackGroundController ()
 
 @end
@@ -23,7 +28,7 @@
 }
 - (BOOL)prefersStatusBarHidden
 {
-    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
+    UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
     
     UIViewController *temViewController = nil;
     do {
@@ -38,37 +43,17 @@
     return [viewController prefersStatusBarHidden];
 }
 - (BOOL)shouldAutorotate{
-    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
-    
-    UIViewController *temViewController = nil;
-    do {
-        temViewController = [viewController childViewControllerForStatusBarHidden];
-        if (temViewController)
-        {
-            viewController = temViewController;
-        }
-        
-    } while (temViewController != nil);
-    
-    return [viewController shouldAutorotate];
+    UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
+    UIViewController *disPlayVC = [JLAlertView getCurrentViewController:viewController];
+    return [disPlayVC shouldAutorotate];
 }
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations{
-    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
-    
-    UIViewController *temViewController = nil;
-    do {
-        temViewController = [viewController childViewControllerForStatusBarHidden];
-        if (temViewController)
-        {
-            viewController = temViewController;
-        }
-        
-    } while (temViewController != nil);
-    
-    return [viewController supportedInterfaceOrientations];
+    UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
+    UIViewController *disPlayVC = [JLAlertView getCurrentViewController:viewController];
+    return [disPlayVC supportedInterfaceOrientations];
 }
 - (UIStatusBarStyle)preferredStatusBarStyle{
-    UIViewController *viewController = [alert__oldKeyWindow rootViewController];
+    UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
     
     UIViewController *temViewController = nil;
     do {

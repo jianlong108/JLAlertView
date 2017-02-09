@@ -39,7 +39,7 @@ static BOOL JLAlertView_prefersStatusBarHidden;
 static BOOL JLAlertView_canrorate;
 static UIInterfaceOrientationMask JLAlertView_InterfaceOrientationMask;
 
-static UIWindow *alert__oldKeyWindow;
+//static UIWindow *alert__oldKeyWindow;
 
 
 

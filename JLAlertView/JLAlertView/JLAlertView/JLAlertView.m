@@ -14,6 +14,8 @@
 #import "JLAlertHeader.h"
 
 
+static UIWindow *alert__oldKeyWindow;
+
 @interface JLAlertView ()
 
 
@@ -343,11 +345,12 @@
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
         self.mainView.frame = CGRectMake((MAX(w, h)- _contentW)/2, (MIN(w, h)- CGRectGetMaxY(self.sureBtn.frame))/2, _contentW, CGRectGetMaxY(self.sureBtn.frame));
-
+        _alert__BackGroundView.frame = CGRectMake(0, 0, MAX(w, h), MIN(w, h));
     }else {
         self.mainView.frame = CGRectMake((MIN(w, h)- _contentW)/2, (MAX(w, h)- CGRectGetMaxY(self.sureBtn.frame))/2, _contentW, CGRectGetMaxY(self.sureBtn.frame));
+        _alert__BackGroundView.frame = CGRectMake(0, 0, MIN(w, h), MAX(w, h));
     }
-    _alert__BackGroundView.frame = CGRectMake(0, 0, MIN(w, h), MAX(w, h));
+    
 }
 
 - (CGFloat)cacluteBtnWWithContetn{
@@ -541,6 +544,9 @@
             _alert__BackGroundView.hidden = YES;
         }];
     }
+}
++ (UIWindow *)getBusinessWindow{
+    return alert__oldKeyWindow;
 }
 //获取当前屏幕显示的viewcontroller
 + (UIViewController *)getCurrentViewController:(UIViewController *)vc{
