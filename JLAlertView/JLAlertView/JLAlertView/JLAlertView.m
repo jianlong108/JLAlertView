@@ -430,9 +430,9 @@ static UIWindow *alert__oldKeyWindow;
         self.alertWindow = window;
     }
    
-    [UIView animateWithDuration:0.5 animations:^{
-        self.alertWindow.hidden = NO;
-        _alert__BackGroundView.hidden = NO;
+    [UIView animateWithDuration:0.3 animations:^{
+//        _alertWindow.hidden = NO;
+        _alertWindow.alpha = 1;
     }];
     [self.alertWindow makeKeyAndVisible];
 //    [self initializeView];
@@ -538,9 +538,10 @@ static UIWindow *alert__oldKeyWindow;
         [_alert__BackGroundView removeFromSuperview];
         _alert__BackGroundView = nil;
     }else{
-        [UIView animateWithDuration:0.5 animations:^{
-            _alertWindow.hidden = YES;
-            _alert__BackGroundView.hidden = YES;
+        [UIView animateWithDuration:0.3 animations:^{
+//            _alertWindow.hidden = YES;
+            _alertWindow.alpha = 0;
+            _alert__BackGroundView.alpha = 0;
         }];
     }
 }
@@ -614,9 +615,12 @@ static UIWindow *alert__oldKeyWindow;
             JLAlertView_InterfaceOrientationMask = [visibleVC supportedInterfaceOrientations];
         }
         
-        [_alert__BackGroundView makeKeyAndVisible];
     }
-    
+    _alert__BackGroundView.alpha = 0;
+    [_alert__BackGroundView makeKeyAndVisible];
+    [UIView animateWithDuration:0.3 animations:^{
+        _alert__BackGroundView.alpha = 1;
+    }];
 }
 + (CGSize)currentScreenSize
 {

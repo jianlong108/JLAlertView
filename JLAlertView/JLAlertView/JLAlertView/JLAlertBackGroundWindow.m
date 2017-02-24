@@ -8,7 +8,7 @@
 
 #import "JLAlertBackGroundWindow.h"
 #import "JLAlertBackGroundController.h"
-
+#import "JLBlureView.h"
 
 
 @implementation JLAlertBackGroundWindow
@@ -20,8 +20,11 @@
         self.windowLevel = UIWindowLevelAlert - 1;
         self.opaque = NO;
         
+//        JLBlureView *blureView = [[JLBlureView alloc]initWithFrame:self.bounds];
+//        blureView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//        [self addSubview:blureView];
+        
         JLAlertBackGroundController *vc = [[JLAlertBackGroundController alloc] init];
-//        self.rootVC = vc;
         self.rootViewController = vc;
         self.rootViewController.view.backgroundColor = [UIColor clearColor];
     }

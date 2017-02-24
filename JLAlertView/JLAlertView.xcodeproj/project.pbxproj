@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34056A0D1E5E89DA00749226 /* JLBlureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34056A0C1E5E89DA00749226 /* JLBlureView.m */; };
 		340E6D221E14E87F008862F0 /* JLAlertBackGroundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340E6D211E14E87F008862F0 /* JLAlertBackGroundController.m */; };
 		340E6D251E14EA17008862F0 /* JLAlertBackGroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 340E6D241E14EA17008862F0 /* JLAlertBackGroundWindow.m */; };
 		340E6D281E14EA5F008862F0 /* JLAlertWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 340E6D271E14EA5F008862F0 /* JLAlertWindow.m */; };
@@ -21,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		34056A0B1E5E89DA00749226 /* JLBlureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLBlureView.h; sourceTree = "<group>"; };
+		34056A0C1E5E89DA00749226 /* JLBlureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLBlureView.m; sourceTree = "<group>"; };
 		340E6D201E14E87F008862F0 /* JLAlertBackGroundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLAlertBackGroundController.h; sourceTree = "<group>"; };
 		340E6D211E14E87F008862F0 /* JLAlertBackGroundController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLAlertBackGroundController.m; sourceTree = "<group>"; };
 		340E6D231E14EA17008862F0 /* JLAlertBackGroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLAlertBackGroundWindow.h; sourceTree = "<group>"; };
@@ -110,6 +113,8 @@
 				340E6D211E14E87F008862F0 /* JLAlertBackGroundController.m */,
 				34DF18591DF92ABC0044858C /* JLAlertViewController.h */,
 				34DF185A1DF92ABC0044858C /* JLAlertViewController.m */,
+				34056A0B1E5E89DA00749226 /* JLBlureView.h */,
+				34056A0C1E5E89DA00749226 /* JLBlureView.m */,
 			);
 			path = JLAlertView;
 			sourceTree = "<group>";
@@ -187,6 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				340E6D281E14EA5F008862F0 /* JLAlertWindow.m in Sources */,
+				34056A0D1E5E89DA00749226 /* JLBlureView.m in Sources */,
 				34DF185B1DF92ABC0044858C /* JLAlertViewController.m in Sources */,
 				34DF18461DF9111A0044858C /* ViewController.m in Sources */,
 				340E6D251E14EA17008862F0 /* JLAlertBackGroundWindow.m in Sources */,
