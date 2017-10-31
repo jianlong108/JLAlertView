@@ -25,10 +25,6 @@ static UIWindow *alert__oldKeyWindow;
 /**mainView*/
 @property (nonatomic, strong)UIView *mainView;
 
-
-/**back*/
-@property (nonatomic, strong)UIView *backView;
-
 /**topTitle*/
 @property (nonatomic, strong)UILabel *topTitleLabel;
 
