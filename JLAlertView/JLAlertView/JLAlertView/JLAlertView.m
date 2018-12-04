@@ -14,7 +14,7 @@
 #import "JLAlertHeader.h"
 
 
-static UIWindow *alert__oldKeyWindow;
+static UIWindow *__alert__oldKeyWindow;
 
 @interface JLAlertView ()
 
@@ -67,6 +67,111 @@ static UIWindow *alert__oldKeyWindow;
 
 
 @implementation JLAlertView
+
+#pragma mark - interface
+
+- (void)show
+{
+    _oldKeyWindow = [UIApplication sharedApplication].keyWindow;
+    
+    [JLAlertView getOldKeyWindow];
+    
+    if (![[JLAlertView allAlerts]containsObject:self]) {
+        [[JLAlertView allAlerts] addObject:self];
+    }
+    
+    if (self.isVisible) {
+        return;
+    }
+    
+    if ([JLAlertView currentAlertView].isVisible) {
+        [self transitionOutCompletion:^{
+            JLAlertView *alertView = [JLAlertView currentAlertView];
+            [alertView dismissWithClean:NO];
+        }];
+        
+        return;
+    }
+    
+    [self showBackGround];
+    
+    if (self.associatedViewController == nil) {
+        JLAlertViewController *viewController = [[JLAlertViewController alloc] initWithNibName:nil bundle:nil];
+        viewController.alertView = self;
+        viewController.rootViewControllerPrefersStatusBarHidden = JLAlertView_prefersStatusBarHidden;
+        viewController.rootViewControllerCanRoration = JLAlertView_canrorate;
+        viewController.rootViewControllerInterfaceOrientationMask = JLAlertView_InterfaceOrientationMask;
+        
+        JLAlertWindow *window = [[JLAlertWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        window.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        window.opaque = NO;
+        window.windowLevel = UIWindowLevelAlert;
+        window.rootViewController = viewController;
+        self.associatedViewController = viewController;
+        self.alertWindow = window;
+    }
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        //        _alertWindow.hidden = NO;
+        _alertWindow.alpha = 1;
+    }];
+    [self.alertWindow makeKeyAndVisible];
+    
+    [self transitionInCompletion:^{
+        
+    }];
+    
+    self.visible = YES;
+    [JLAlertView setCurrentAlertView:self];
+    
+}
+
+- (void)dismissWithClean:(BOOL)clean
+{
+    self.visible = NO;
+    [JLAlertView setCurrentAlertView:nil];
+    [self tearDown:clean];
+    
+    JLAlertView *nextAlertView;
+    NSInteger index = [[JLAlertView allAlerts] indexOfObject:self];
+    if (index != NSNotFound && index < [JLAlertView allAlerts].count - 1) {
+        nextAlertView = [JLAlertView allAlerts][index + 1];
+    }
+    
+    if (clean) {
+        if (self.superview) {
+            [self removeFromSuperview];
+        }
+        [[JLAlertView allAlerts]removeObject:self];
+        
+    }
+    
+    if (nextAlertView) {
+        [nextAlertView show];
+        return;
+    } else {
+        // show last alert view
+        if ([JLAlertView allAlerts].count > 0) {
+            JLAlertView *alert = [[JLAlertView allAlerts] lastObject];
+            
+            [alert show];
+            return;
+        }
+    }
+    [_oldKeyWindow makeKeyAndVisible];
+    _oldKeyWindow.hidden = NO;
+    
+    __alert__currentAlertView = nil;
+    __alert__oldKeyWindow = nil;
+    __alert__alertElement = nil;
+}
+
+- (void)dealloc
+{
+    NSLog(@"JLAlertView -- dealloc");
+}
+
+
 - (instancetype)initWithTitle:(nullable NSString *)title message:(nullable NSString *)message delegate:(nullable id)delegate SureButtonTitle:(nullable NSString *)sureButtonTitle otherButtonTitles:(NSArray <NSString *>*) otherButtonTitles
 {
     if (self = [self initWithFrame:[UIScreen mainScreen].bounds]) {
@@ -78,25 +183,21 @@ static UIWindow *alert__oldKeyWindow;
         
         [self initializeView];
         
-//        if([[JLSkinManager sharedManager] isNightSkin]){
-//            UIView *nightLayer  = [[UIView alloc]initWithFrame:self.bounds];
-//            nightLayer.userInteractionEnabled = NO;
-//            nightLayer.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
-//            nightLayer.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-//            [self insertSubview:nightLayer aboveSubview:_mainView];
-//        }
     }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willregin) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeregin) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
     return self;
 }
-- (void)willregin{
+
+- (void)willregin
+{
     if (self.visible) {
         [self.oldKeyWindow makeKeyAndVisible];
         [self tearDown:NO];
@@ -108,12 +209,18 @@ static UIWindow *alert__oldKeyWindow;
         }
     }
 }
-- (void)becomeregin{
+
+- (void)becomeregin
+{
     JLAlertView *alert = [[JLAlertView allAlerts] lastObject];
     [alert show];
     
 }
-- (void)initializeDataWithTitle:(NSString *)title Message:(NSString *)seconTitle SureButtonTitle:(nullable NSString *)sureButtonTitle   otherButtonTitles:(NSArray <NSString *>*) otherButtonTitles{
+
+#pragma mark - UI
+
+- (void)initializeDataWithTitle:(NSString *)title Message:(NSString *)seconTitle SureButtonTitle:(nullable NSString *)sureButtonTitle   otherButtonTitles:(NSArray <NSString *>*) otherButtonTitles
+{
     _contentInsets = UIEdgeInsetsMake(20, 20, 20, 20);
     
     NSMutableDictionary *title_Dic = [NSMutableDictionary dictionary];
@@ -130,7 +237,9 @@ static UIWindow *alert__oldKeyWindow;
     
     [self creatBtn];
 }
-- (void)setUpViews{
+
+- (void)setUpViews
+{
     _mainView = [[UIView alloc]init];
     _mainView.clipsToBounds = YES;
     _mainView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
@@ -154,7 +263,9 @@ static UIWindow *alert__oldKeyWindow;
     _secondDescription.font = [UIFont systemFontOfSize:14.];
     _secondDescription.textAlignment = NSTextAlignmentLeft;
 }
-- (void)addButtonWithTitle:(nullable NSString *)title BtnColorStyle:(JLAlertViewBtnColor)btnColor{
+
+- (void)addButtonWithTitle:(nullable NSString *)title BtnColorStyle:(JLAlertViewBtnColor)btnColor
+{
     if (title && [title isEqualToString:@""] == NO) {
         UIButton *otherBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [otherBtn addTarget:self action:@selector(cancleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -190,7 +301,8 @@ static UIWindow *alert__oldKeyWindow;
     
 }
 
-- (void)initializeView{
+- (void)initializeView
+{
     self.frame = [UIScreen mainScreen].bounds;
     self.backgroundColor = [UIColor clearColor];
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
@@ -219,7 +331,9 @@ static UIWindow *alert__oldKeyWindow;
         }
     }];
 }
-- (void)creatBtn{
+
+- (void)creatBtn
+{
     if (self.contentDatas.count > 0)
     {
         NSDictionary *dic = self.contentDatas[0];
@@ -260,7 +374,8 @@ static UIWindow *alert__oldKeyWindow;
     
 }
 
-- (void)layoutSubviews{
+- (void)layoutSubviews
+{
     _alert__BackGroundView.frame = [UIScreen mainScreen].bounds;
     _alert__BackGroundView.rootViewController.view.frame = [UIScreen mainScreen].bounds;
     [super layoutSubviews];
@@ -348,7 +463,8 @@ static UIWindow *alert__oldKeyWindow;
     
 }
 
-- (CGFloat)cacluteBtnWWithContetn{
+- (CGFloat)cacluteBtnWWithContetn
+{
     NSUInteger count = self.btns.count;
     if (count != 2 && _isDouble == NO) {
         return _contentW;
@@ -357,24 +473,30 @@ static UIWindow *alert__oldKeyWindow;
     }
 }
 
-
-- (NSMutableArray *)btns{
+- (NSMutableArray *)btns
+{
     if (_btns == nil) {
         _btns = [NSMutableArray array];
     }
     return _btns;
 }
-- (NSMutableArray *)contentDatas{
+
+- (NSMutableArray *)contentDatas
+{
     if (_contentDatas == nil) {
         _contentDatas = [NSMutableArray array];
     }
     return _contentDatas;
 }
-- (NSInteger)numberOfButtons{
+
+- (NSInteger)numberOfButtons
+{
     return self.btns.count;
 }
+
 #pragma mark click
-- (void)cancleBtnClick:(UIButton *)sender{
+- (void)cancleBtnClick:(UIButton *)sender
+{
     
     if ([self.delegate respondsToSelector:@selector(alertView:clickedButtonAtIndex:)]) {
         
@@ -386,61 +508,7 @@ static UIWindow *alert__oldKeyWindow;
     [self dismissWithClean:YES];
 }
 
-- (void)show{
-    _oldKeyWindow = [UIApplication sharedApplication].keyWindow;
-    
-    [JLAlertView getOldKeyWindow];
-    
-    if (![[JLAlertView allAlerts]containsObject:self]) {
-        [[JLAlertView allAlerts] addObject:self];
-    }
-    
-    if (self.isVisible) {
-        return;
-    }
 
-    if ([JLAlertView currentAlertView].isVisible) {
-        [self transitionOutCompletion:^{
-            JLAlertView *alertView = [JLAlertView currentAlertView];
-            [alertView dismissWithClean:NO];
-        }];
-        
-        return;
-    }
-    
-    [self showBackGround];
-    
-    if (self.associatedViewController == nil) {
-        JLAlertViewController *viewController = [[JLAlertViewController alloc] initWithNibName:nil bundle:nil];
-        viewController.alertView = self;
-        viewController.rootViewControllerPrefersStatusBarHidden = JLAlertView_prefersStatusBarHidden;
-        viewController.rootViewControllerCanRoration = JLAlertView_canrorate;
-        viewController.rootViewControllerInterfaceOrientationMask = JLAlertView_InterfaceOrientationMask;
-        
-        JLAlertWindow *window = [[JLAlertWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        window.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        window.opaque = NO;
-        window.windowLevel = UIWindowLevelAlert;
-        window.rootViewController = viewController;
-        self.associatedViewController = viewController;
-        self.alertWindow = window;
-    }
-   
-    [UIView animateWithDuration:0.3 animations:^{
-//        _alertWindow.hidden = NO;
-        _alertWindow.alpha = 1;
-    }];
-    [self.alertWindow makeKeyAndVisible];
-//    [self initializeView];
-    
-    [self transitionInCompletion:^{
-        
-    }];
-    
-    self.visible = YES;
-    [JLAlertView setCurrentAlertView:self];
-    
-}
 // Transition
 - (void)transitionInCompletion:(void(^)(void))completion
 {
@@ -465,6 +533,7 @@ static UIWindow *alert__oldKeyWindow;
                          }
                      }];
 }
+
 - (void)transitionOutCompletion:(void(^)(void))completion
 {
     [UIView animateWithDuration:0.25
@@ -481,52 +550,30 @@ static UIWindow *alert__oldKeyWindow;
                          }
                      }];
 }
-- (void)dismissWithClean:(BOOL)clean{
+
+- (CGSize)stringSizeStr:(NSString *)str Width:(CGFloat)width TopTitle:(BOOL)isTopTitle
+{
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     
-    
-    self.visible = NO;
-    [JLAlertView setCurrentAlertView:nil];
-    [self tearDown:clean];
-    
-    JLAlertView *nextAlertView;
-    NSInteger index = [[JLAlertView allAlerts] indexOfObject:self];
-    if (index != NSNotFound && index < [JLAlertView allAlerts].count - 1) {
-        nextAlertView = [JLAlertView allAlerts][index + 1];
+    UIFont *font = [UIFont systemFontOfSize:14.];
+    if (isTopTitle) {
+        font = [UIFont boldSystemFontOfSize:18];
     }
     
-    if (clean) {
-        if (self.superview) {
-            [self removeFromSuperview];
-        }
-        [[JLAlertView allAlerts]removeObject:self];
-        
-    }
     
-    if (nextAlertView) {
-        [nextAlertView show];
-        return;
-    } else {
-        // show last alert view
-        if ([JLAlertView allAlerts].count > 0) {
-            JLAlertView *alert = [[JLAlertView allAlerts] lastObject];
-           
-            [alert show];
-            return;
-        }
-    }
-    [_oldKeyWindow makeKeyAndVisible];
-    _oldKeyWindow.hidden = NO;
+    NSDictionary *attributes = @{NSFontAttributeName:font, NSParagraphStyleAttributeName:paragraphStyle.copy};
+    
+    
+    CGSize tempSize = [str boundingRectWithSize:CGSizeMake(width, 120) options:
+                       NSStringDrawingUsesLineFragmentOrigin |
+                       NSStringDrawingUsesFontLeading attributes:attributes context:nil].size;
+    tempSize = CGSizeMake(ceil(tempSize.width), ceil(tempSize.height));
+    return tempSize;
 }
-- (void)dealloc{
-    //    NSLog(@"JLAlertView -- dealloc");
-}
-+ (JLAlertView *)currentAlertView{
-    return alert__currentAlertView;
-}
-+ (void)setCurrentAlertView:(JLAlertView *)alertView{
-    alert__currentAlertView = alertView;
-}
-- (void)tearDown:(BOOL)clean{
+
+- (void)tearDown:(BOOL)clean
+{
     if (clean) {
         [_alertWindow removeFromSuperview];
         _alertWindow = nil;
@@ -541,11 +588,49 @@ static UIWindow *alert__oldKeyWindow;
         }];
     }
 }
-+ (UIWindow *)getBusinessWindow{
-    return alert__oldKeyWindow;
+
+- (void)showBackGround
+{
+    if (_alert__BackGroundView == nil) {
+        _alert__BackGroundView = [[JLAlertBackGroundWindow alloc]initWithFrame:CGRectMake(0, 0, [JLAlertView currentScreenSize].width, [JLAlertView currentScreenSize].height)];
+        _alert__BackGroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        if ([[UIApplication sharedApplication].keyWindow.rootViewController respondsToSelector:@selector(prefersStatusBarHidden)]) {
+            UIViewController *rootVc = [UIApplication sharedApplication].keyWindow.rootViewController;
+            UIViewController *visibleVC = [JLAlertView getCurrentViewController:rootVc];
+            JLAlertView_prefersStatusBarHidden = [visibleVC prefersStatusBarHidden];
+            JLAlertView_canrorate = [visibleVC shouldAutorotate];
+            JLAlertView_InterfaceOrientationMask = [visibleVC supportedInterfaceOrientations];
+        }
+        
+    }
+    _alert__BackGroundView.alpha = 0;
+    [_alert__BackGroundView makeKeyAndVisible];
+    [UIView animateWithDuration:0.3 animations:^{
+        _alert__BackGroundView.alpha = 1;
+    }];
 }
+
+#pragma mark - Tool
+
+
++ (JLAlertView *)currentAlertView
+{
+    return __alert__currentAlertView;
+}
+
++ (void)setCurrentAlertView:(JLAlertView *)alertView
+{
+    __alert__currentAlertView = alertView;
+}
+
++ (UIWindow *)getBusinessWindow
+{
+    return __alert__oldKeyWindow;
+}
+
 //获取当前屏幕显示的viewcontroller
-+ (UIViewController *)getCurrentViewController:(UIViewController *)vc{
++ (UIViewController *)getCurrentViewController:(UIViewController *)vc
+{
     
     if ([vc isKindOfClass:[UITabBarController class]])
     {
@@ -591,33 +676,16 @@ static UIWindow *alert__oldKeyWindow;
     }
     
 }
-+ (void)getOldKeyWindow{
-    if (alert__oldKeyWindow == nil) {
-        
-        alert__oldKeyWindow = [UIApplication sharedApplication].keyWindow;
-        NSLog(@"获取到业务window%@",alert__oldKeyWindow);
+
++ (void)getOldKeyWindow
+{
+    if (__alert__oldKeyWindow == nil) {
+        __alert__oldKeyWindow = [UIApplication sharedApplication].keyWindow;
+        NSLog(@"获取到业务window%@",__alert__oldKeyWindow);
     }
     
 }
-- (void)showBackGround{
-    if (_alert__BackGroundView == nil) {
-        _alert__BackGroundView = [[JLAlertBackGroundWindow alloc]initWithFrame:CGRectMake(0, 0, [JLAlertView currentScreenSize].width, [JLAlertView currentScreenSize].height)];
-        _alert__BackGroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        if ([[UIApplication sharedApplication].keyWindow.rootViewController respondsToSelector:@selector(prefersStatusBarHidden)]) {
-            UIViewController *rootVc = [UIApplication sharedApplication].keyWindow.rootViewController;
-            UIViewController *visibleVC = [JLAlertView getCurrentViewController:rootVc];
-            JLAlertView_prefersStatusBarHidden = [visibleVC prefersStatusBarHidden];
-            JLAlertView_canrorate = [visibleVC shouldAutorotate];
-            JLAlertView_InterfaceOrientationMask = [visibleVC supportedInterfaceOrientations];
-        }
-        
-    }
-    _alert__BackGroundView.alpha = 0;
-    [_alert__BackGroundView makeKeyAndVisible];
-    [UIView animateWithDuration:0.3 animations:^{
-        _alert__BackGroundView.alpha = 1;
-    }];
-}
+
 + (CGSize)currentScreenSize
 {
     CGRect frame = [UIScreen mainScreen].bounds;
@@ -634,30 +702,14 @@ static UIWindow *alert__oldKeyWindow;
     
     return CGSizeMake(screenWidth, screenHeight);
 }
-+ (NSMutableArray *)allAlerts{
-    if (alert__alertElement == nil) {
-        alert__alertElement = [NSMutableArray array];
+
++ (NSMutableArray *)allAlerts
+{
+    if (__alert__alertElement == nil) {
+        __alert__alertElement = [NSMutableArray array];
     }
-    return alert__alertElement;
+    return __alert__alertElement;
 }
-- (CGSize)stringSizeStr:(NSString *)str Width:(CGFloat)width TopTitle:(BOOL)isTopTitle{
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-    
-    UIFont *font = [UIFont systemFontOfSize:14.];
-    if (isTopTitle) {
-        font = [UIFont boldSystemFontOfSize:18];
-    }
-    
-    
-    NSDictionary *attributes = @{NSFontAttributeName:font, NSParagraphStyleAttributeName:paragraphStyle.copy};
-    
-    
-    CGSize tempSize = [str boundingRectWithSize:CGSizeMake(width, 120) options:
-                       NSStringDrawingUsesLineFragmentOrigin |
-                       NSStringDrawingUsesFontLeading attributes:attributes context:nil].size;
-    tempSize = CGSizeMake(ceil(tempSize.width), ceil(tempSize.height));
-    return tempSize;
-}
+
 
 @end

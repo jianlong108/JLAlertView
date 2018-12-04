@@ -10,8 +10,10 @@
 #import "JLAlertHeader.h"
 
 @interface JLAlertView ()
+
 + (UIViewController *)getCurrentViewController:(UIViewController *)vc;
 + (UIWindow *)getBusinessWindow;
+
 @end
 
 @interface JLAlertBackGroundController ()
@@ -20,12 +22,14 @@
 
 @implementation JLAlertBackGroundController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     }
     return self;
 }
+
 - (BOOL)prefersStatusBarHidden
 {
     UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
@@ -39,20 +43,33 @@
         }
         
     } while (temViewController != nil);
-    
+    if ([viewController isEqual:self]) {
+        return NO;
+    }
     return [viewController prefersStatusBarHidden];
 }
-- (BOOL)shouldAutorotate{
+- (BOOL)shouldAutorotate
+{
     UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
     UIViewController *disPlayVC = [JLAlertView getCurrentViewController:viewController];
+    if ([disPlayVC isEqual:self]) {
+        return YES;
+    }
     return [disPlayVC shouldAutorotate];
 }
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
     UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
     UIViewController *disPlayVC = [JLAlertView getCurrentViewController:viewController];
+    if ([disPlayVC isEqual:self]) {
+        return UIInterfaceOrientationMaskAll;
+    }
     return [disPlayVC supportedInterfaceOrientations];
 }
-- (UIStatusBarStyle)preferredStatusBarStyle{
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
     UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
     
     UIViewController *temViewController = nil;
@@ -64,10 +81,14 @@
         }
         
     } while (temViewController != nil);
-    
+    if ([viewController isEqual:self]) {
+        return UIStatusBarStyleDefault;
+    }
     return [viewController preferredStatusBarStyle];
 }
-- (void)dealloc{
+
+- (void)dealloc
+{
     NSLog(@"JLAlertBackGroundController--dealloc");
 }
 

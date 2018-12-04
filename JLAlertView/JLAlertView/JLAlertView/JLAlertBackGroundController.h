@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface JLAlertBackGroundController : UIViewController
-/**window*/
-//@property (nonatomic, weak)UIWindow *oldKeyWindow;
+
 @end

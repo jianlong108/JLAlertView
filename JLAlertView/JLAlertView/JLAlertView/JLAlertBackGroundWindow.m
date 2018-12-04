@@ -13,7 +13,8 @@
 
 @implementation JLAlertBackGroundWindow
 
-- (instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
         
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -37,7 +38,9 @@
     [[UIColor colorWithRed:0 green:0 blue:0 alpha:0.4] set];
     CGContextFillRect(context, self.bounds);
 }
-- (void)dealloc{
+
+- (void)dealloc
+{
     NSLog(@"JLAlertViewBackGroundView--dealloc");
 }
 

@@ -18,6 +18,7 @@
 - (void)initializeView;
 + (UIViewController *)getCurrentViewController:(UIViewController *)vc;
 + (UIWindow *)getBusinessWindow;
+
 @end
 
 @implementation JLAlertViewController
@@ -56,17 +57,8 @@
     [self.alertView setNeedsLayout];
 }
 
-- (BOOL)shouldAutorotate{
-    UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
-    UIViewController *disPlayVC = [JLAlertView getCurrentViewController:viewController];
-    return [disPlayVC shouldAutorotate];
-}
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
-    UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
-    UIViewController *disPlayVC = [JLAlertView getCurrentViewController:viewController];
-    return [disPlayVC supportedInterfaceOrientations];
-}
-- (BOOL)prefersStatusBarHidden{
+- (BOOL)prefersStatusBarHidden
+{
     UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
     
     UIViewController *temViewController = nil;
@@ -78,10 +70,33 @@
         }
         
     } while (temViewController != nil);
-    
+    if ([viewController isEqual:self]) {
+        return NO;
+    }
     return [viewController prefersStatusBarHidden];
 }
-- (UIStatusBarStyle)preferredStatusBarStyle{
+- (BOOL)shouldAutorotate
+{
+    UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
+    UIViewController *disPlayVC = [JLAlertView getCurrentViewController:viewController];
+    if ([disPlayVC isEqual:self]) {
+        return YES;
+    }
+    return [disPlayVC shouldAutorotate];
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
+    UIViewController *disPlayVC = [JLAlertView getCurrentViewController:viewController];
+    if ([disPlayVC isEqual:self]) {
+        return UIInterfaceOrientationMaskAll;
+    }
+    return [disPlayVC supportedInterfaceOrientations];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
     UIViewController *viewController = [[JLAlertView getBusinessWindow] rootViewController];
     
     UIViewController *temViewController = nil;
@@ -93,7 +108,9 @@
         }
         
     } while (temViewController != nil);
-    
+    if ([viewController isEqual:self]) {
+        return UIStatusBarStyleDefault;
+    }
     return [viewController preferredStatusBarStyle];
 }
 
