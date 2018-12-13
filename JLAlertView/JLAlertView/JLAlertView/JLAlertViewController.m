@@ -11,6 +11,7 @@
 
 @interface JLAlertView ()
 
+
 @property (nonatomic, strong)UIWindow *oldKeyWindow;
 @property (nonatomic, strong)UIWindow *alertWindow;
 @property (nonatomic, strong)JLAlertBackGroundWindow *alert__BackGroundView;
@@ -21,17 +22,41 @@
 
 @end
 
-@implementation JLAlertViewController
-#pragma mark - View life cycle
+@interface JLAlertViewController ()
 
-- (void)dealloc{
+@property (nonatomic, strong) JLAlertView *alertView;
+
+@end
+
+@implementation JLAlertViewController
+
+#pragma mark - View life cycle
+- (void)dealloc
+{
     NSLog(@"JLAlertViewConroller--dealloc");
 }
+
+- (instancetype)initWithAlertView:(JLAlertView *)alertView
+{
+    if (self = [super init]) {
+        self.alertView = alertView;
+    }
+    return self;
+}
+
+- (void)loadView
+{
+    if (self.alertView) {
+        self.view = self.alertView;
+    } else {
+        self.view = [[UIView alloc]init];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.alertView];
     
     [self.alertView initializeView];
     

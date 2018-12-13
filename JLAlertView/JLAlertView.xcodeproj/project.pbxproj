@@ -19,6 +19,8 @@
 		34DF184E1DF9111A0044858C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34DF184C1DF9111A0044858C /* LaunchScreen.storyboard */; };
 		34DF18581DF9114D0044858C /* JLAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34DF18571DF9114D0044858C /* JLAlertView.m */; };
 		34DF185B1DF92ABC0044858C /* JLAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34DF185A1DF92ABC0044858C /* JLAlertViewController.m */; };
+		F44023EC21BFFC9E009E5DE9 /* CusKeyWindowRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44023E821BFFC9E009E5DE9 /* CusKeyWindowRootViewController.m */; };
+		F44023ED21BFFC9E009E5DE9 /* CustomKeyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F44023EA21BFFC9E009E5DE9 /* CustomKeyWindow.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,10 @@
 		34DF18571DF9114D0044858C /* JLAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLAlertView.m; sourceTree = "<group>"; };
 		34DF18591DF92ABC0044858C /* JLAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLAlertViewController.h; sourceTree = "<group>"; };
 		34DF185A1DF92ABC0044858C /* JLAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLAlertViewController.m; sourceTree = "<group>"; };
+		F44023E821BFFC9E009E5DE9 /* CusKeyWindowRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusKeyWindowRootViewController.m; sourceTree = "<group>"; };
+		F44023E921BFFC9E009E5DE9 /* CusKeyWindowRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusKeyWindowRootViewController.h; sourceTree = "<group>"; };
+		F44023EA21BFFC9E009E5DE9 /* CustomKeyWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomKeyWindow.m; sourceTree = "<group>"; };
+		F44023EB21BFFC9E009E5DE9 /* CustomKeyWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomKeyWindow.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +108,10 @@
 		34DF18551DF9113C0044858C /* JLAlertView */ = {
 			isa = PBXGroup;
 			children = (
+				F44023E921BFFC9E009E5DE9 /* CusKeyWindowRootViewController.h */,
+				F44023E821BFFC9E009E5DE9 /* CusKeyWindowRootViewController.m */,
+				F44023EB21BFFC9E009E5DE9 /* CustomKeyWindow.h */,
+				F44023EA21BFFC9E009E5DE9 /* CustomKeyWindow.m */,
 				34DF18561DF9114D0044858C /* JLAlertView.h */,
 				34DF18571DF9114D0044858C /* JLAlertView.m */,
 				344722881E1505D700F37F4F /* JLAlertHeader.h */,
@@ -193,11 +203,13 @@
 			files = (
 				340E6D281E14EA5F008862F0 /* JLAlertWindow.m in Sources */,
 				34056A0D1E5E89DA00749226 /* JLBlureView.m in Sources */,
+				F44023EC21BFFC9E009E5DE9 /* CusKeyWindowRootViewController.m in Sources */,
 				34DF185B1DF92ABC0044858C /* JLAlertViewController.m in Sources */,
 				34DF18461DF9111A0044858C /* ViewController.m in Sources */,
 				340E6D251E14EA17008862F0 /* JLAlertBackGroundWindow.m in Sources */,
 				34DF18581DF9114D0044858C /* JLAlertView.m in Sources */,
 				34DF18431DF9111A0044858C /* AppDelegate.m in Sources */,
+				F44023ED21BFFC9E009E5DE9 /* CustomKeyWindow.m in Sources */,
 				34DF18401DF9111A0044858C /* main.m in Sources */,
 				340E6D221E14E87F008862F0 /* JLAlertBackGroundController.m in Sources */,
 			);
